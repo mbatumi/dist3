@@ -1,0 +1,14 @@
+body {
+    font-family: 'Vazirmatn', sans-serif;
+}
+input[type="file"] {
+    border: 1px solid #4B5563;
+}
+#results img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 2px solid transparent;
+}
+#results img.match {
+    border-color: #10B981;
+}
