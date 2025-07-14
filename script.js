@@ -16,7 +16,7 @@ let isPaused = false;
 let isCancelled = false;
 
 toggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
+  document.body.classList.toggle("dark");
 });
 
 faceInput.addEventListener("change", (e) => {
@@ -26,11 +26,11 @@ faceInput.addEventListener("change", (e) => {
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
-  dropZone.style.borderColor = "#00aa00";
+  dropZone.classList.add("ring", "ring-blue-500");
 });
 
 dropZone.addEventListener("dragleave", () => {
-  dropZone.style.borderColor = "";
+  dropZone.classList.remove("ring", "ring-blue-500");
 });
 
 dropZone.addEventListener("drop", (e) => {
@@ -40,6 +40,7 @@ dropZone.addEventListener("drop", (e) => {
     faceInput.files = e.dataTransfer.files;
     showPreview(file);
   }
+  dropZone.classList.remove("ring", "ring-blue-500");
 });
 
 function showPreview(file) {
@@ -53,7 +54,7 @@ function showPreview(file) {
 
 folderInput.addEventListener("change", (e) => {
   folderFiles = Array.from(e.target.files).filter(file => file.type.startsWith("image/"));
-  console.log("تصاویر انتخاب‌شده:", folderFiles.length);
+  console.log("📂 تعداد فایل‌های پوشه:", folderFiles.length);
 });
 
 startBtn.addEventListener("click", async () => {
@@ -66,14 +67,8 @@ startBtn.addEventListener("click", async () => {
   await startSearch();
 });
 
-pauseBtn.addEventListener("click", () => {
-  isPaused = true;
-});
-
-resumeBtn.addEventListener("click", () => {
-  isPaused = false;
-});
-
+pauseBtn.addEventListener("click", () => { isPaused = true; });
+resumeBtn.addEventListener("click", () => { isPaused = false; });
 cancelBtn.addEventListener("click", () => {
   isCancelled = true;
   progressBar.value = 0;
@@ -85,7 +80,6 @@ async function loadModels() {
   await faceapi.nets.faceRecognitionNet.loadFromUri('./models/');
   console.log("✅ مدل‌ها بارگذاری شدند.");
 }
-
 window.addEventListener("DOMContentLoaded", loadModels);
 
 async function getFaceDescriptor(imageFile) {
@@ -97,9 +91,33 @@ async function getFaceDescriptor(imageFile) {
 async function startSearch() {
   const targetDescriptor = await getFaceDescriptor(faceInput.files[0]);
   if (!targetDescriptor) {
-    alert("چهره‌ای در تصویر ورودی یافت نشد.");
+    alert("❌ چهره‌ای در تصویر ورودی یافت نشد.");
     return;
   }
 
   let current = 0;
-  let matchedFiles =
+  let matchedFiles = [];
+
+  async function loop() {
+    if (isCancelled) return;
+    if (isPaused) return setTimeout(loop, 500);
+    if (current >= folderFiles.length) {
+      alert(`✅ جستجو کامل شد. تصاویر مشابه یافت‌شده: ${matchedFiles.length}`);
+      console.log("تصاویر مشابه:", matchedFiles);
+      return;
+    }
+
+    const file = folderFiles[current];
+    const descriptor = await getFaceDescriptor(file);
+    if (descriptor) {
+      const distance = faceapi.euclideanDistance(targetDescriptor, descriptor);
+      if (distance < 0.6) matchedFiles.push({ file, distance });
+    }
+
+    current++;
+    progressBar.value = (current / folderFiles.length) * 100;
+    setTimeout(loop, 80);
+  }
+
+  loop();
+}

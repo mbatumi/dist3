@@ -1,45 +1,54 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>جستجوی چهره آفلاین</title>
-  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
   <script defer src="script.js"></script>
 </head>
-<body>
-  <header>
-    <h1>🔍 جستجوی چهره آفلاین</h1>
-    <button id="toggle-theme">تغییر حالت</button>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition">
+
+  <header class="bg-blue-600 dark:bg-blue-800 text-white py-4 text-center shadow-md">
+    <h1 class="text-2xl font-bold">🔍 وب‌اپلیکیشن جستجوی چهره</h1>
+    <button id="toggle-theme" class="mt-2 px-3 py-1 bg-white text-blue-600 font-semibold rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">تغییر حالت</button>
   </header>
 
-  <main>
-    <section class="upload-area">
-      <h2>بارگذاری عکس چهره</h2>
-      <input type="file" id="face-input" accept="image/*" />
-      <div id="drag-drop" class="drop-zone">یا فایل را اینجا بیندازید</div>
+  <main class="max-w-3xl mx-auto px-4 py-6 space-y-6">
 
-      <div id="preview-box">
-        <img id="preview-image" src="assets/placeholder.png" alt="پیش‌نمایش" />
-        <p id="file-info">هیچ فایلی انتخاب نشده</p>
+    <!-- آپلود چهره -->
+    <section>
+      <h2 class="text-xl font-bold mb-2">آپلود چهره</h2>
+      <div class="border-2 border-dashed rounded-lg p-4 bg-white dark:bg-gray-800">
+        <input type="file" id="face-input" accept="image/*" class="hidden">
+        <label for="face-input" id="drag-drop" class="block cursor-pointer text-center p-6 rounded bg-gray-100 dark:bg-gray-700 hover:bg-blue-50 dark:hover:bg-blue-600 transition">
+          فایل را اینجا بیندازید یا کلیک کنید
+        </label>
+        <div id="preview-box" class="mt-4 text-center">
+          <img id="preview-image" src="assets/placeholder.png" alt="پیش‌نمایش" class="w-28 h-28 object-cover rounded-full border-4 border-blue-500 mx-auto">
+          <p id="file-info" class="mt-2 text-sm text-gray-600 dark:text-gray-300">هیچ فایلی انتخاب نشده</p>
+        </div>
       </div>
     </section>
 
-    <section class="folder-selection">
-      <h2>انتخاب مسیر تصاویر برای جستجو</h2>
-      <input type="file" id="folder-input" webkitdirectory directory multiple />
+    <!-- مسیر پوشه -->
+    <section>
+      <h2 class="text-xl font-bold mb-2">انتخاب پوشه تصاویر</h2>
+      <input type="file" id="folder-input" webkitdirectory directory multiple class="block w-full p-2 border rounded bg-white dark:bg-gray-700">
     </section>
 
-    <section class="controls">
-      <progress id="progress-bar" value="0" max="100"></progress>
-      <div class="buttons">
-        <button id="start-search">شروع جستجو</button>
-        <button id="pause-search">توقف</button>
-        <button id="resume-search">ادامه</button>
-        <button id="cancel-search">لغو</button>
+    <!-- کنترل‌ها -->
+    <section>
+      <progress id="progress-bar" value="0" max="100" class="w-full h-4 mt-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"></progress>
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <button id="start-search" class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">شروع</button>
+        <button id="pause-search" class="bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition">توقف</button>
+        <button id="resume-search" class="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">ادامه</button>
+        <button id="cancel-search" class="bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">لغو</button>
       </div>
     </section>
+
   </main>
 </body>
 </html>
