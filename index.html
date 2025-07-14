@@ -1,47 +1,45 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تشخیص چهره آفلاین</title>
-    <link href="lib/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جستجوی چهره آفلاین</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <script defer src="script.js"></script>
 </head>
-<body class="bg-gray-900 text-white font-vazir min-h-screen flex flex-col items-center justify-start p-4">
-    <div class="container w-full max-w-md">
-        <h1 class="text-2xl font-bold text-center mb-6">تشخیص چهره آفلاین</h1>
-        <div class="flex flex-col items-center space-y-4">
-            <div class="w-full">
-                <label for="referenceImage" class="block text-lg mb-2">تصویر مرجع (چهره شخص):</label>
-                <input type="file" id="referenceImage" accept="image/*" class="w-full p-2 bg-gray-800 rounded text-sm">
-                <div id="referencePreview" class="mt-2"></div>
-            </div>
-            <div class="w-full">
-                <label for="imageFolder" class="block text-lg mb-2">تصاویر برای جستجو:</label>
-                <input type="file" id="imageFolder" accept="image/*" multiple class="w-full p-2 bg-gray-800 rounded text-sm">
-                <div id="imagesPreview" class="mt-2 grid grid-cols-2 gap-2"></div>
-            </div>
-            <div class="w-full flex space-x-2">
-                <button id="searchButton" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded">
-                    جستجوی چهره
-                </button>
-                <button id="pauseButton" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded hidden">
-                    توقف
-                </button>
-                <button id="resumeButton" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded hidden">
-                    ادامه
-                </button>
-            </div>
-            <div id="status" class="mt-4 text-center text-sm"></div>
-            <div id="progress" class="w-full bg-gray-700 rounded-full h-4 mt-2 hidden">
-                <div id="progressBar" class="bg-blue-600 h-4 rounded-full"></div>
-            </div>
-            <div id="results" class="mt-6 grid grid-cols-2 gap-2"></div>
-        </div>
-    </div>
-    <script src="lib/tf.min.js"></script>
-    <script src="lib/face-api.min.js"></script>
-    <script src="script.js"></script>
+<body>
+  <header>
+    <h1>🔍 جستجوی چهره آفلاین</h1>
+    <button id="toggle-theme">تغییر حالت</button>
+  </header>
+
+  <main>
+    <section class="upload-area">
+      <h2>بارگذاری عکس چهره</h2>
+      <input type="file" id="face-input" accept="image/*" />
+      <div id="drag-drop" class="drop-zone">یا فایل را اینجا بیندازید</div>
+
+      <div id="preview-box">
+        <img id="preview-image" src="assets/placeholder.png" alt="پیش‌نمایش" />
+        <p id="file-info">هیچ فایلی انتخاب نشده</p>
+      </div>
+    </section>
+
+    <section class="folder-selection">
+      <h2>انتخاب مسیر تصاویر برای جستجو</h2>
+      <input type="file" id="folder-input" webkitdirectory directory multiple />
+    </section>
+
+    <section class="controls">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <div class="buttons">
+        <button id="start-search">شروع جستجو</button>
+        <button id="pause-search">توقف</button>
+        <button id="resume-search">ادامه</button>
+        <button id="cancel-search">لغو</button>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
