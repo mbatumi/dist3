@@ -4,6 +4,11 @@ body {
 input[type="file"] {
     border: 1px solid #4B5563;
 }
+#referencePreview img, #imagesPreview img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 8px;
+}
 #results img {
     max-width: 100%;
     border-radius: 8px;
@@ -11,4 +16,15 @@ input[type="file"] {
 }
 #results img.match {
     border-color: #10B981;
+}
+@media (max-width: 640px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    button {
+        font-size: 0.9rem;
+    }
+    input[type="file"] {
+        font-size: 0.8rem;
+    }
 }
